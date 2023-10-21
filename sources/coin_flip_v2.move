@@ -102,7 +102,7 @@ module desui_labs::coin_flip_v2 {
     }
 
     // --------------- House Funtions ---------------
-    
+
     public entry fun create_house<T>(
         _: &AdminCap,
         pub_key: vector<u8>,
@@ -128,7 +128,7 @@ module desui_labs::coin_flip_v2 {
         _: &AdminCap,
         house: &mut House<T>,
         coin: Coin<T>,
-    ) {        
+    ) {
         let balance = coin::into_balance(coin);
         balance::join(&mut house.pool, balance);
     }
@@ -185,6 +185,7 @@ module desui_labs::coin_flip_v2 {
         house.fee_rate = fee_rate;
     }
 
+    #[allow(unused_type_parameter)]
     public entry fun copy_admin_cap_to<T>(
         _: &AdminCap,
         to: address,
@@ -360,7 +361,7 @@ module desui_labs::coin_flip_v2 {
         assert!(current_epoch > start_epoch + CHALLENGE_EPOCH_INTERVAL, ECannotChallenge);
         let original_stake_amount = balance::value(&stake) / 2;
         transfer::public_transfer(coin::from_balance(stake, ctx), player);
-        
+
         object::delete(id);
         event::emit(Outcome<T> {
             game_id,
@@ -466,7 +467,7 @@ module desui_labs::coin_flip_v2 {
             stake_amount,
             partnership_type,
         });
-        
+
         let game = Game<T> {
             id,
             player,
@@ -508,7 +509,7 @@ module desui_labs::coin_flip_v2 {
     fun compute_fee_amount(amount: u64, fee_rate: u128): u64 {
         (((amount as u128) * fee_rate / FEE_PRECISION) as u64)
     }
-    
+
     fun min_u128(x: u128, y: u128): u128 {
         if (x <= y) { x } else { y }
     }
